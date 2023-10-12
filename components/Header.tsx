@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { raleway } from "../fonts";
+import { raleway } from "../app/fonts";
 
 const Header = () => {
   const pathname = usePathname();
