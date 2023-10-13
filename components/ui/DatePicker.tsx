@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { addDays, format } from "date-fns"
+import { format } from "date-fns"
 import { DateRange } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
@@ -14,27 +14,31 @@ import {
 } from "@/components/ui/Popover"
 import { CalendarIcon } from "../icons/icons"
 
-export function DatePickerWithRange({
-  className,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 5),
-  })
+export interface DatePickerWithRangeProps {
+  className?: React.HTMLAttributes<HTMLDivElement>
+  date: DateRange | undefined
+  handleDate: (value: DateRange | undefined) => void
+}
+
+export function DatePickerWithRange({ className, date, handleDate } : DatePickerWithRangeProps) {
+  // const [date, setDate] = React.useState<DateRange | undefined>({
+  //   from: new Date(),
+  //   to: addDays(new Date(), 5),
+  // })
 
   return (
-    <div className={cn("grid gap-2 w-full", className)}>
+    <div className={cn("grid gap-2 w-full min-[913px]:w-[300px]", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "flex justify-start gap-2 items-end",
+              "flex justify-start gap-2 items-end ",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon classname="w-6 opacity-70" />
+            <CalendarIcon classname="w-5 h-5 opacity-70" />
             {date?.from ? (
               date.to ? (
                 <>
@@ -55,8 +59,18 @@ export function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleDate}
             numberOfMonths={2}
+            className="hidden md:block"
+          />
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={handleDate}
+            numberOfMonths={1}
+            className="block md:hidden"
           />
         </PopoverContent>
       </Popover>

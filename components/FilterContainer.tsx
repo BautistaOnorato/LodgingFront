@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-import { raleway } from "../app/fonts";
 import { HouseIcon, PlaneIcon, SearchIcon, TrashIcon } from "./icons/icons";
 import { Button } from "./ui/Button";
 import { DatePickerWithRange } from "./ui/DatePicker";
@@ -14,79 +13,95 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/Select";
+import { Category, City } from "@/lib/types";
+import ProductGrid from "./Product/ProductGrid";
+import { DateRange } from "react-day-picker";
+import { addDays, format } from "date-fns";
+import { formatDate } from "@/lib/utils";
 
-const FilterContainer = () => {
+export interface FilterContainerProps {
+  categories: Category[]
+  cities: City[]
+}
+
+const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories }) => {
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState("");
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 5),
+  })
 
   const resetForm = () => {
     setLocation("")
     setCategory("")
+    setDate({
+      from: new Date(),
+      to: addDays(new Date(), 5)
+    })
+  }
+
+  const handleDate = (value: DateRange | undefined) => {
+    setDate(value)
   }
 
   return (
-    <section className="w-full bg-primary-color flex items-center flex-col relative h-[20vh]">
-      <h2
-        onClick={() => {
-          console.log(location);
-          console.log(category);
-        }}
-        className={`text-white text-4xl ${raleway.className} font-bold w-[80%] mt-6`}
-      >
-        Stay Everywhere, Feel at Home!
-      </h2>
-      <form className="w-[80%] bg-secondary-color absolute bottom-[-30%] h-[11vh] p-4 rounded-md flex gap-4 items-center">
-        <Select onValueChange={value => setLocation(value)} defaultValue={location}>
-          <SelectTrigger>
-            <div className="flex items-end gap-3">
-              <PlaneIcon classname="w-6 h-6 opacity-70" />
-              <SelectValue
-                placeholder="Where are you going?"
-              />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Locations</SelectLabel>
-              <SelectItem value="1">1</SelectItem>
-              <SelectItem value="2">2</SelectItem>
-              <SelectItem value="3">3</SelectItem>
-              <SelectItem value="4">4</SelectItem>
-              <SelectItem value="5">5</SelectItem>
-              <SelectItem value="6">6</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <Select onValueChange={value => setCategory(value)} defaultValue={category}>
-          <SelectTrigger>
-            <div className="flex items-end gap-3">
-              <HouseIcon classname="w-6 h-6 opacity-70" />
-              <SelectValue
-                placeholder="Where are you staying?"
-              />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Locations</SelectLabel>
-              <SelectItem value="1">1</SelectItem>
-              <SelectItem value="2">2</SelectItem>
-              <SelectItem value="3">3</SelectItem>
-              <SelectItem value="4">4</SelectItem>
-              <SelectItem value="5">5</SelectItem>
-              <SelectItem value="6">6</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <DatePickerWithRange />
-        <Button variant="secondary">
-          <SearchIcon classname="w-6" />
-        </Button>
-        <Button variant="destructive" onClick={resetForm}>
-          <TrashIcon classname="w-6" />
-        </Button>
-      </form>
-    </section>
+    <>
+      <section className="bg-secondary-color w-full">
+        <form className="w-[90vw] sm:w-full mx-auto sm:mx-0 py-4 px-0 sm:px-8 flex flex-col min-[913px]:flex-row min-[913px]:justify-between gap-2 lg:items-center">
+          <Select onValueChange={value => setLocation(value)} value={location}>
+            <SelectTrigger className="w-full min-[913px]:w-[300px] font-medium">
+              <div className="flex items-end gap-2">
+                <PlaneIcon classname="w-5 h-5 opacity-70" />
+                <SelectValue
+                  placeholder="Where are you going?"
+                />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Locations</SelectLabel>
+                {
+                  cities?.map(city => (
+                    <SelectItem value={city.id.toString()} key={city.id}>{`${city.city}, ${city.country}`}</SelectItem>
+                  ))
+                }
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={value => setCategory(value)} value={category}>
+            <SelectTrigger className="w-full min-[913px]:w-[300px] font-medium">
+              <div className="flex items-end gap-2">
+                <HouseIcon classname="w-5 h-5 opacity-70" />
+                <SelectValue
+                  placeholder="Where are you staying?"
+                />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Locations</SelectLabel>
+                {
+                  categories?.map(category => (
+                    <SelectItem value={category.id.toString()} key={category.id}>{category.title}</SelectItem>
+                  ))
+                }
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <DatePickerWithRange date={date} handleDate={handleDate} />
+          <div className="flex gap-2 w-full justify-end md:w-auto">
+            <Button variant="secondary" className="w-[50%] md:w-auto" type="submit">
+              <SearchIcon classname="w-6" />
+            </Button>
+            <Button variant="destructive" className="w-[50%] md:w-auto" onClick={() => resetForm()} type="button">
+              <TrashIcon classname="w-6" />
+            </Button>
+          </div>
+        </form>
+      </section>
+      <ProductGrid initialDate={formatDate(date?.from)} finalDate={formatDate(date?.to)} location={location} category={category} />
+    </>
   );
 };
 

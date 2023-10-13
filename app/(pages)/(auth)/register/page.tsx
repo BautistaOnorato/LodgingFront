@@ -10,7 +10,7 @@ const page = () => {
       </h2>
       <SignUpForm />
       <span className="text-sm text-gray-500">
-        Don&apos;t have an account{" "}
+        Do you have an account?{" "}
         <a href="/signin" className="text-custom-blue font-bold">
           Sign in
         </a>

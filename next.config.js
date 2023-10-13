@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "booking-app-bautista-onorato.s3.sa-east-1.amazonaws.com",
+        port: "",
+        pathname:  "/**"
+      }
+    ]
+  }
+}
 
 module.exports = nextConfig

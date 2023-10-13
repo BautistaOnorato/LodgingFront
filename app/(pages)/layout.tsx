@@ -1,4 +1,4 @@
-import Header from "../../components/Header";
+import Header from "../../components/Navbar/Header";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
