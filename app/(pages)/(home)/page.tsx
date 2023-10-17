@@ -4,7 +4,7 @@ import { getCategories } from "@/service/categories";
 import { getCities } from "@/service/cities";
 import React from "react";
 
-const page = async () => {
+const HomePage = async () => {
   const categories = await getCategories();
   const cities = await getCities();
   return (
@@ -22,4 +22,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default HomePage;

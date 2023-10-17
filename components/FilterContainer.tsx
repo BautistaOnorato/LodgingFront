@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { HouseIcon, PlaneIcon, SearchIcon, TrashIcon } from "./icons/icons";
 import { Button } from "./ui/Button";
 import { DatePickerWithRange } from "./ui/DatePicker";
@@ -28,27 +28,41 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories })
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState("");
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 5),
+    from: undefined,
+    to: undefined
   })
+  const [filters, setFilters] = useState({ location: "", category: "", initialDate: "", finalDate: "" })
 
   const resetForm = () => {
     setLocation("")
     setCategory("")
     setDate({
-      from: new Date(),
-      to: addDays(new Date(), 5)
+      from: undefined,
+      to: undefined
     })
+    setFilters({ location: "", category: "", initialDate: "", finalDate: "" })
   }
 
   const handleDate = (value: DateRange | undefined) => {
     setDate(value)
   }
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    
+    const newFilters = {
+      location: location,
+      category: category,
+      initialDate: formatDate(date?.from),
+      finalDate: formatDate(date?.to),
+    }
+    setFilters(newFilters)
+  }
+
   return (
     <>
       <section className="bg-secondary-color w-full">
-        <form className="w-[90vw] sm:w-full mx-auto sm:mx-0 py-4 px-0 sm:px-8 flex flex-col min-[913px]:flex-row min-[913px]:justify-between gap-2 lg:items-center">
+        <form onSubmit={(e) => handleSubmit(e)} className="w-[90vw] sm:w-full mx-auto sm:mx-0 py-4 px-0 sm:px-8 flex flex-col min-[913px]:flex-row min-[913px]:justify-between gap-2 lg:items-center">
           <Select onValueChange={value => setLocation(value)} value={location}>
             <SelectTrigger className="w-full min-[913px]:w-[300px] font-medium">
               <div className="flex items-end gap-2">
@@ -100,7 +114,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories })
           </div>
         </form>
       </section>
-      <ProductGrid initialDate={formatDate(date?.from)} finalDate={formatDate(date?.to)} location={location} category={category} />
+      <ProductGrid {...filters} />
     </>
   );
 };

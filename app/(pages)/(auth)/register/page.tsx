@@ -2,7 +2,7 @@ import { raleway } from "@/app/fonts";
 import React from "react";
 import SignUpForm from "./SignUpForm";
 
-const page = () => {
+const RegisterPage = () => {
   return (
     <div className="w-full px-5 flex flex-col gap-6">
       <h2 className={`${raleway.className} font-semibold text-2xl`}>
@@ -19,4 +19,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default RegisterPage;
