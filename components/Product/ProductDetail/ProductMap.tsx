@@ -10,7 +10,7 @@ export interface Coordinates {
 
 const ProductMap: React.FC<Coordinates> = ({ latitude, longitude }) => {
   return (
-    <section className="mx-auto w-[90%] sm:px-8 sm:w-full">
+    <section className="pt-6 mx-auto w-[90%] sm:px-8 sm:w-full">
       <div className="hidden sm:block">
         <Map height={500} defaultCenter={[latitude, longitude]} defaultZoom={11} provider={osm}>
           <Marker width={50} anchor={[latitude, longitude]} color="#f9a127"/>

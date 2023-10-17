@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import ProductCard from './ProductCard'
 import { getProducts } from '@/service/products'
 import { ShortProduct } from '@/lib/types'
+import NoResults from '../ui/NoResults'
 
 export interface ProductGridProps {
   location: string
@@ -18,7 +19,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({ location, category, initialDa
   useEffect(() => {
     const filterProducts = async () => {
       const newProducts = await getProducts({ location, category, initialDate, finalDate })
-      console.log(newProducts, initialDate, finalDate);
       setProducts(newProducts)
     }
 
@@ -27,10 +27,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ location, category, initialDa
 
   return (
     <section className='mx-auto w-[90vw] sm:w-full px-0 sm:px-8 py-4 flex justify-center'>
-      <div className='grid min-[700px]:grid-cols-2 min-[1020px]:grid-cols-3 xl:grid-cols-4 gap-4 w-full place-items-center'>
-        {
-          products.length > 0 ? (
-            products?.map(product => (
+      {
+        products.length > 0 ? (
+          <div className='grid min-[700px]:grid-cols-2 min-[1020px]:grid-cols-3 xl:grid-cols-4 gap-4 w-full place-items-center'>
+            {products?.map(product => (
               <ProductCard 
                 key={product.id} 
                 identifier={product.id}
@@ -39,12 +39,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ location, category, initialDa
                 location={`${product.location.city.city}, ${product.location.city.country}`} 
                 rating={product.rating} 
               />
-            ))
-          ) : (
-            <p>No results</p>
-          )
-        }
-      </div>
+            ))}
+          </div>
+        ) : (
+          <div className='my-10'>
+            <NoResults title="We couldn't find any products that match your current filters. Please try adjusting your search criteria or removing some filters to broaden your search."/>
+          </div>
+        )
+      }
     </section>
   )
 }

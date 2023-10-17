@@ -8,7 +8,7 @@ export interface ProductRulesProps {
 
 const ProductRules: React.FC<ProductRulesProps> = ({ rules, securities, cancellationPolicy }) => {
   return (
-    <section className="px-8 space-y-4">
+    <section className="pt-6 px-8 space-y-4">
       <h3 className="text-xl font-bold border-b pb-2">Things to know</h3>
       <div className="flex w-full justify-between flex-wrap gap-6">
         <div>

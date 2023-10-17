@@ -1,5 +1,5 @@
 import Availability from '@/components/Product/ProductDetail/Availability'
-import Gallery from '@/components/Product/ProductDetail/Gallery'
+import PhotosContainer from '@/components/Product/ProductDetail/Gallery/PhotosContainer'
 import ProductMap from '@/components/Product/ProductDetail/ProductMap'
 import ProductHeader from '@/components/Product/ProductDetail/ProductHeader'
 import ProductTags from '@/components/Product/ProductDetail/ProductTags'
@@ -18,12 +18,12 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   const product = await getProductById(params.productId)
 
   return (
-    <div className='space-y-6 pb-6'>
+    <div className='pb-6'>
       <ProductHeader title={product.title} location={product.location} rating={product.rating} />
       <ShareSection />
-      <Gallery images={product.images} />
+      <PhotosContainer images={product.images} />
       <ProductTags characteristics={product.characteristics} />
-      <section className='w-[90%] sm:w-full py-4 sm:px-8 mx-auto text-sm'>
+      <section className='pt-6 w-[90%] sm:w-full sm:px-8 mx-auto text-sm'>
         <p>{product.description}</p>
       </section>
       <ProductMap latitude={product.location.latitude} longitude={product.location.longitude} />

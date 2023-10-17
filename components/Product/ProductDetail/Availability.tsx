@@ -20,7 +20,7 @@ const Availability: React.FC<AvailabilityProps> = ({ reservations }) => {
   const disabledDays = reservations.map(reservation => ({ from: stringToDate(reservation.initialDate), to: stringToDate(reservation.finalDate) }))
   
   return (
-    <section className="w-full bg-secondary-color px-0 sm:px-8 py-6 flex flex-col lg:flex-row justify-between gap-10">
+    <section className="mt-6 w-full bg-secondary-color px-0 sm:px-8 py-6 flex flex-col lg:flex-row justify-between gap-10">
       <div className="w-full sm:w-auto space-y-4 px-2">
         <h3 className={`text-white ${raleway.className} text-xl font-semibold`}>Available days</h3>
         <div className="sm:w-[545px]">
