@@ -1,25 +1,35 @@
 "use client";
 
-import { ClosedEyeIcon, EyeIcon } from "@/components/icons/icons";
 import { Button } from "@/components/ui/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
+import { UserInfo } from "@/context/user";
+import { useUser } from "@/hooks/useUser";
+import { signUp } from "@/service/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOffIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod"
 
 const formSchema = z.object({
   email: z.string().email(),
-  firstName: z.string().min(1).max(255),
-  lastName: z.string().min(1).max(255),
-  phone: z.string().min(1).max(255),
-  password: z.string().min(6).max(255),
-  confirmPassword: z.string().min(6).max(255),
+  firstName: z.string().min(1, { message: "First name must contain at least 1 character" }).max(255),
+  lastName: z.string().min(1, { message: "Last name must contain at least 1 character" }).max(255),
+  phone: z.string().regex(new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/), { message: "Invalid phone number" }),
+  password: z.string().min(6, { message: "Password must contain at least 6 characters" }).max(255),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"]
 })
 
 const SignUpForm = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter()
+  const { handleUser } = useUser()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,8 +43,24 @@ const SignUpForm = () => {
     }
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const userBody = {
+      email: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phone: values.phone,
+      password: values.password,
+      role: "USER"
+    }
+    const newUser = await signUp(userBody)
+    if (typeof newUser === "string") {
+      setError(newUser)
+    } else {
+      const userInfo: UserInfo = { token: newUser.token, id: newUser.user.id }
+      localStorage.setItem("user-info", JSON.stringify(userInfo))
+      handleUser(newUser)
+      router.push("/")
+    }
   }
 
   return (
@@ -52,7 +78,7 @@ const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <div className="flex flex-col md:flex-row items-center gap-2">
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-2">
           <FormField
             control={form.control}
             name="firstName"
@@ -90,56 +116,59 @@ const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <div className="relative w-full flex items-center justify-end">
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormControl>
+                <div className="relative flex items-center justify-end">
                   <Input type={eyeOpen ? "text" : "password"} {...field} placeholder="Enter your password" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {eyeOpen ? (
-            <EyeIcon
-              onClick={() => setEyeOpen(false)}
-              classname="w-8 absolute pr-2 cursor-pointer opacity-70"
-            />
-          ) : (
-            <ClosedEyeIcon
-              onClick={() => setEyeOpen(true)}
-              classname="w-8 absolute pr-2 cursor-pointer opacity-70"
-            />
+                  {eyeOpen ? (
+                    <Eye
+                      onClick={() => setEyeOpen(false)}
+                      className="w-8 absolute pr-3 cursor-pointer opacity-70"
+                    />
+                    ) : (
+                      <EyeOffIcon
+                        onClick={() => setEyeOpen(true)}
+                        className="w-8 absolute pr-3 cursor-pointer opacity-70"
+                      />
+                  )}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-        </div>
-        <div className="relative w-full flex items-center justify-end">
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormControl>
+                <div className="relative flex items-center justify-end">
                   <Input type={eyeOpen ? "text" : "password"} {...field} placeholder="Confirm your password" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {eyeOpen ? (
-            <EyeIcon
-              onClick={() => setEyeOpen(false)}
-              classname="w-8 absolute pr-2 cursor-pointer opacity-70"
-            />
-          ) : (
-            <ClosedEyeIcon
-              onClick={() => setEyeOpen(true)}
-              classname="w-8 absolute pr-2 cursor-pointer opacity-70"
-            />
+                  {eyeOpen ? (
+                    <Eye
+                      onClick={() => setEyeOpen(false)}
+                      className="w-8 absolute pr-3 cursor-pointer opacity-70"
+                    />
+                    ) : (
+                      <EyeOffIcon
+                        onClick={() => setEyeOpen(true)}
+                        className="w-8 absolute pr-3 cursor-pointer opacity-70"
+                      />
+                  )}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-        </div>
+        />
+        {
+         error && <p className="text-destructive text-sm font-medium">{error}</p>
+        }
         <Button className="bg-primary-color py-2 text-white text-lg hover:bg-primary-color">
           Continue
         </Button>

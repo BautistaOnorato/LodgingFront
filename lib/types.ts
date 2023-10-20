@@ -102,3 +102,28 @@ export interface Rule {
   id: number
   description: string
 }
+
+export interface User {
+  token: string
+  user: UserResponse
+}
+
+export interface UserResponse {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  phone: string
+  role: string
+  imageUrl: string
+  enable: boolean
+  favouriteProducts: number[]
+}
+
+
+export interface CustomError {
+  details: string
+  message: string
+  timestamp: string
+}

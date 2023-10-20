@@ -1,3 +1,5 @@
+
+import { UserProvider } from '@/context/user'
 import { roboto } from './fonts'
 import './globals.css'
 import type { Metadata } from 'next'
@@ -14,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={roboto.className}>
+        <UserProvider>
+          {children}
+        </UserProvider>
+      </body>
     </html>
   )
 }

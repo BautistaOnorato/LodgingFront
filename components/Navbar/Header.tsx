@@ -6,11 +6,13 @@ import MainNav from "./MainNav";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
+import { useUser } from "@/hooks/useUser";
 
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const { user } = useUser()
 
   const handleOpen = (value: boolean) => {
     setOpen(value)
@@ -33,17 +35,20 @@ const Header = () => {
               <MainNav routes={[{ href: "/register", title: "Register" }, { href: "/signin", title: "Sign in" }]} handleOpen={handleOpen} />
             </div>
             <div className="sm:hidden block">
-              { 
-                open ? 
-                <X size={32} onClick={() => setOpen(false)} className="text-white cursor-pointer" /> 
-                : <Menu size={32} onClick={() => setOpen(true)} className="text-white cursor-pointer" /> 
+              { user ? (
+                <MainNav routes={[{ href: "/register", title: "Register" }, { href: "/signin", title: "Sign in" }]} handleOpen={handleOpen} />
+              ) : (
+                  open ? 
+                  <X size={32} onClick={() => setOpen(false)} className="text-white cursor-pointer" /> 
+                  : <Menu size={32} onClick={() => setOpen(true)} className="text-white cursor-pointer" /> 
+                )
               }
             </div>
           </>
         )}
       </div>
       {
-        open && <MobileMenu handleOpen={handleOpen} open={open} />
+        !user && open && <MobileMenu handleOpen={handleOpen} open={open} />
       }
     </header>
   );

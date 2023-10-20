@@ -4,7 +4,7 @@ import SignUpForm from "./SignUpForm";
 
 const RegisterPage = () => {
   return (
-    <div className="w-full px-5 flex flex-col gap-6">
+    <div className="pb-6 md:py-5 w-full px-5 flex flex-col gap-6">
       <h2 className={`${raleway.className} font-semibold text-2xl`}>
         Create an account
       </h2>
