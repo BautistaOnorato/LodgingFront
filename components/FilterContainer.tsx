@@ -17,7 +17,7 @@ import { Category, City } from "@/lib/types";
 import ProductGrid from "./Product/ProductGrid";
 import { DateRange } from "react-day-picker";
 import { addDays, format } from "date-fns";
-import { formatDate } from "@/lib/utils";
+import { DateFormat, formatDate } from "@/lib/utils";
 
 export interface FilterContainerProps {
   categories: Category[]
@@ -53,8 +53,8 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories })
     const newFilters = {
       location: location,
       category: category,
-      initialDate: formatDate(date?.from),
-      finalDate: formatDate(date?.to),
+      initialDate: formatDate(date?.from, DateFormat.FILTER),
+      finalDate: formatDate(date?.to, DateFormat.FILTER),
     }
     setFilters(newFilters)
   }

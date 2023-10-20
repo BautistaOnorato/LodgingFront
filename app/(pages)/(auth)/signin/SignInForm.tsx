@@ -5,7 +5,6 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/Input";
 import { UserInfo } from "@/context/user";
 import { useUser } from "@/hooks/useUser";
-import { User } from "@/lib/types";
 import { signIn } from "@/service/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOffIcon } from "lucide-react";
@@ -24,7 +23,6 @@ const SignInForm = () => {
   const [error, setError] = useState("")
   const router = useRouter()
   const { handleUser } = useUser()
-  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,7 +31,6 @@ const SignInForm = () => {
       password: "",
     }
   })
-
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setError("")

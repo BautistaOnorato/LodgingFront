@@ -66,6 +66,19 @@ export interface Reservation {
   clientId: number
 }
 
+export interface ReservationRequest {
+  initialDate: string
+  finalDate: string
+  code: string
+  product: {
+    id: string
+  }
+  client: {
+    id: string
+    role: string
+  }
+}
+
 export interface Review {
   id: number
   description: string

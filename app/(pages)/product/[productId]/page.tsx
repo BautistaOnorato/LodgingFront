@@ -27,7 +27,7 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
         <p>{product.description}</p>
       </section>
       <ProductMap latitude={product.location.latitude} longitude={product.location.longitude} />
-      <Availability reservations={product.reservations} />
+      <Availability reservations={product.reservations} title={product.title} productId={product.id} />
       <ProductRules rules={product.rules} securities={product.securities} cancellationPolicy={product.cancellationPolicy} />
     </div>
   )

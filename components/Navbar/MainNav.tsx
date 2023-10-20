@@ -29,9 +29,9 @@ const MainNav: React.FC<MainNavProps> = ({ routes, handleOpen }) => {
         user ? (
           <DropdownMenu onOpenChange={() => console.log(user)}>
             <DropdownMenuTrigger className="focus:outline-none">
-              <div className="hidden sm:flex items-center justify-center gap-3 min-w-[180px] bg-white rounded-sm p-2 ">
+              <div className="hidden sm:flex items-center justify-center gap-2 bg-white rounded-lg p-2 ">
                 <User />
-                <p className={`${roboto.className}`}>Welcome {user.user.firstName}</p>
+                <p className={`${roboto.className}`}>{user.user.firstName}</p>
               </div>
               <Avatar className="block sm:hidden">
                 <AvatarFallback className="font-medium">{user.user.firstName[0]}{user.user.lastName[0]}</AvatarFallback>
