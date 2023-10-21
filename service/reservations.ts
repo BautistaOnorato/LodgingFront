@@ -19,3 +19,15 @@ export const postReservation = async (request : ReservationRequest, token: strin
     return "Something went wrong";
   }
 }
+
+export const getUserReservations = async (userId: string, token: string): Promise<Reservation[]> => {
+  const config = {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  }
+
+  const res = await fetch(`${BASE_URL}/client/${userId}`, config)
+  return res.json()
+}

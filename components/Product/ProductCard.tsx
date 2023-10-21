@@ -11,11 +11,15 @@ export interface ProductCardProps {
   identifier: number
   image: ImageType
   title: string
-  rating: number,
+  rating: number
   location: string
+  reservation?: {
+    initialDate: string
+    finalDate: string
+  }
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ identifier, image, title, rating, location }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ identifier, image, title, rating, location, reservation }) => {
   const router = useRouter()
   return (
     <div className='w-full min-[700px]:w-[300px] cursor-pointer rounded-lg relative'>
@@ -37,6 +41,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ identifier, image, title, rat
             <p className='flex items-center gap-1 justify-end'><Star className='text-black' size={16} /> <span className='text-sm'>{rating}</span></p>
           </div>
           <p className='text-sm text-muted-foreground'>{location}</p>
+          {
+            reservation && (
+              <div>
+                <p><strong>Arrival:</strong> {reservation.initialDate}</p>
+                <p><strong>Departure:</strong> {reservation.finalDate}</p>
+              </div>
+            )
+          }
         </div>
       </div>
       <Heart size={24} strokeWidth={1.5} className='z-10 absolute fill-[#252525d3] hover:fill-[#ff0000d3] text-white top-2 right-2 hover:scale-110 transition' />

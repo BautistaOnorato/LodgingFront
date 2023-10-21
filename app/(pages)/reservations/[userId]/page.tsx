@@ -1,9 +1,17 @@
-import React from 'react'
+import ReservationsContainer from "@/components/ReservationsContainer"
 
-const page = () => {
+interface ReservationPageProps {
+  params: {
+    userId: string
+  }
+}
+
+const ReservationPage: React.FC<ReservationPageProps> = ({ params }) => {
   return (
-    <div>page</div>
+    <div>
+      <ReservationsContainer userId={params.userId}/>
+    </div>
   )
 }
 
-export default page
+export default ReservationPage
