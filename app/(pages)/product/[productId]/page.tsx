@@ -7,6 +7,7 @@ import ShareSection from '@/components/Product/ProductDetail/ShareSection'
 import { getProductById } from '@/service/products'
 import React from 'react'
 import ProductRules from '@/components/Product/ProductDetail/ProductRules'
+import { revalidatePath } from 'next/cache'
 
 interface ProductPageProps {
   params: {
@@ -17,10 +18,11 @@ interface ProductPageProps {
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   const product = await getProductById(params.productId)
 
+
   return (
     <div className='pb-6'>
       <ProductHeader title={product.title} location={product.location} rating={product.rating} />
-      <ShareSection />
+      <ShareSection productId={Number(params.productId)} socialNetworks={product.socialNetworks} />
       <PhotosContainer images={product.images} />
       <ProductTags characteristics={product.characteristics} />
       <section className='pt-6 w-[90%] sm:w-full sm:px-8 mx-auto text-sm'>

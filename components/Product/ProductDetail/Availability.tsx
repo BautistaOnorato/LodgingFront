@@ -12,6 +12,8 @@ import { DateRange } from "react-day-picker"
 import ReservationForm from "./ReservationForm"
 import { ReservationRequest } from "@/lib/types"
 import { postReservation } from "@/service/reservations"
+import { revalidatePath } from "next/cache"
+import { clearCachesByServerAction } from "@/lib/cache"
 
 export interface AvailabilityProps {
   reservations: { id: number, initialDate: string, finalDate: string }[]
@@ -28,7 +30,7 @@ const Availability: React.FC<AvailabilityProps> = ({ reservations, title, produc
     to: undefined
   })
   const disabledDays = reservations.map(reservation => ({ from: stringToDate(reservation.initialDate), to: stringToDate(reservation.finalDate) }))
-  
+
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
@@ -50,6 +52,7 @@ const Availability: React.FC<AvailabilityProps> = ({ reservations, title, produc
     if (typeof reservation === "string") {
       setError(reservation)
     } else {
+      clearCachesByServerAction("/product/[productId]")
       router.push("/reservations/" + user.user.id)
     }
   }
@@ -60,7 +63,10 @@ const Availability: React.FC<AvailabilityProps> = ({ reservations, title, produc
         <h3 className={`text-white ${raleway.className} text-xl font-semibold`}>Available days</h3>
         <div className="sm:w-[545px]">
           <Calendar  
-            disabled={disabledDays}
+            disabled={[
+              ...disabledDays,
+              { before: new Date() }
+            ]}
             defaultMonth={new Date()}
             numberOfMonths={2}
             mode="range"
@@ -69,7 +75,10 @@ const Availability: React.FC<AvailabilityProps> = ({ reservations, title, produc
             onSelect={setDate}
           />
           <Calendar  
-            disabled={disabledDays}
+            disabled={[
+              ...disabledDays,
+              { before: new Date() }
+            ]}
             defaultMonth={new Date()}
             numberOfMonths={1}
             mode="range"

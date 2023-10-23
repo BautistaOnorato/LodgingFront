@@ -34,6 +34,16 @@ export interface Favourite {
   product: ShortProduct
 }
 
+export interface FavouriteRequest {
+  product: {
+    id: number
+  }
+  user: {
+    id: string
+    role: string
+  }
+}
+
 export interface Location {
   id: number
   city: City
@@ -131,7 +141,7 @@ export interface UserResponse {
   role: string
   imageUrl: string
   enable: boolean
-  favouriteProducts: number[]
+  favouriteProducts: { favouriteId: number, productId: number }[]
 }
 
 

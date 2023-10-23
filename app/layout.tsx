@@ -3,6 +3,7 @@ import { UserProvider } from '@/context/user'
 import { roboto } from './fonts'
 import './globals.css'
 import type { Metadata } from 'next'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,6 +21,7 @@ export default function RootLayout({
         <UserProvider>
           {children}
         </UserProvider>
+        <Toaster />
       </body>
     </html>
   )

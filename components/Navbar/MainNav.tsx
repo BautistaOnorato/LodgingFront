@@ -27,7 +27,7 @@ const MainNav: React.FC<MainNavProps> = ({ routes, handleOpen }) => {
     <>
       {
         user ? (
-          <DropdownMenu onOpenChange={() => console.log(user)}>
+          <DropdownMenu>
             <DropdownMenuTrigger className="focus:outline-none">
               <div className="hidden sm:flex items-center justify-center gap-2 bg-white rounded-lg p-2 ">
                 <User />
@@ -42,7 +42,7 @@ const MainNav: React.FC<MainNavProps> = ({ routes, handleOpen }) => {
               <DropdownMenuSeparator />
                 <DropdownMenuItem className="hover:bg-slate-100">
                   <Link
-                    className="font-medium cursor-pointer"
+                    className="font-medium cursor-pointer w-full"
                     href={"/reservations/" + user.user.id}
                   >
                     Reservations
@@ -50,14 +50,14 @@ const MainNav: React.FC<MainNavProps> = ({ routes, handleOpen }) => {
                 </DropdownMenuItem>
                 <DropdownMenuItem className="hover:bg-slate-100">
                   <Link
-                    className="font-medium cursor-pointer"
+                    className="font-medium cursor-pointer w-full"
                     href={"/favourites/" + user.user.id}
                   >
                     Favourites
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="gap-2 cursor-pointer hover:text-white hover:bg-red-600" onClick={() => logOut()}>
+                <DropdownMenuItem className="gap-2 cursor-pointer hover:text-white hover:bg-[#ff0000bd]" onClick={() => logOut()}>
                   <LogOut size={18} />
                    Sign out
                 </DropdownMenuItem>

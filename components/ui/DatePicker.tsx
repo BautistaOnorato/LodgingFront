@@ -52,6 +52,7 @@ export function DatePickerWithRange({ className, date, handleDate } : DatePicker
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             initialFocus
+            disabled={{ before: new Date() }}
             mode="range"
             defaultMonth={date?.from}
             selected={date}
@@ -61,6 +62,7 @@ export function DatePickerWithRange({ className, date, handleDate } : DatePicker
           />
           <Calendar
             initialFocus
+            disabled={{ before: new Date() }}
             mode="range"
             defaultMonth={date?.from}
             selected={date}
