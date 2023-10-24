@@ -1,8 +1,21 @@
+"use client"
+
 import { raleway } from "@/app/fonts";
-import React from "react";
 import SignUpForm from "./SignUpForm";
+import { useUser } from "@/hooks/useUser";
+import { redirect } from "next/navigation";
 
 const RegisterPage = () => {
+  const { user } = useUser()
+
+  if (user) {
+    return redirect("/")
+  }
+
+  if (user === false) {
+    return null
+  }
+
   return (
     <div className="pb-6 md:py-5 w-full px-5 flex flex-col gap-6">
       <h2 className={`${raleway.className} font-semibold text-2xl`}>

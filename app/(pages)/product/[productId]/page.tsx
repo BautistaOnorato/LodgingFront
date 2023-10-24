@@ -7,7 +7,6 @@ import ShareSection from '@/components/Product/ProductDetail/ShareSection'
 import { getProductById } from '@/service/products'
 import React from 'react'
 import ProductRules from '@/components/Product/ProductDetail/ProductRules'
-import { revalidatePath } from 'next/cache'
 
 interface ProductPageProps {
   params: {
@@ -17,7 +16,6 @@ interface ProductPageProps {
 
 const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
   const product = await getProductById(params.productId)
-
 
   return (
     <div className='pb-6'>

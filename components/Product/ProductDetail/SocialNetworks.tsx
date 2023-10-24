@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/Button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SocialNetwork } from "@/lib/types"
 import { Share2 } from "lucide-react"
 import Image from "next/image"
@@ -31,6 +31,7 @@ const SocialNetworks: React.FC<SocialNetworkProps> = ({ socialNetworks }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={10} align="start">
         <DropdownMenuLabel>Social networks</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         {
           socialNetworks.map(socialNetwork => (
             <DropdownMenuItem key={socialNetwork.id} className="hover:bg-slate-100 cursor-pointer relative w-full">

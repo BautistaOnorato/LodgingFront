@@ -16,7 +16,6 @@ import {
 import { Category, City } from "@/lib/types";
 import ProductGrid from "./Product/ProductGrid";
 import { DateRange } from "react-day-picker";
-import { addDays, format } from "date-fns";
 import { DateFormat, formatDate } from "@/lib/utils";
 
 export interface FilterContainerProps {

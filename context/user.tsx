@@ -3,10 +3,11 @@
 import { User } from "@/lib/types"
 import { deleteFavourite, postFavourite } from "@/service/favourites"
 import { getUser } from "@/service/users"
-import { createContext, useEffect, useState } from "react"
+import { redirect, usePathname } from "next/navigation"
+import { createContext, useEffect, useLayoutEffect, useState } from "react"
 
 type UserContextProps = {
-  user: User | null
+  user: User | null | false
   handleUser: (value: User | null) => void
   handleFavourites: (productId: number) => Promise<string | number>
 }
@@ -23,7 +24,8 @@ interface props {
 }
 
 export const UserProvider = ({ children }: props) => {
-  const [user, setUser] = useState<User | null>(null)
+  const pathname = usePathname()
+  const [user, setUser] = useState<User | null | false>(false)
 
   const handleUser = (value: User | null) => {
     setUser(value)
@@ -81,6 +83,8 @@ export const UserProvider = ({ children }: props) => {
       } else {
         localStorage.removeItem("user-info")
       }
+    } else {
+      setUser(null)
     }
   }, [])
 

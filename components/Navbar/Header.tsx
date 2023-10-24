@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import { useUser } from "@/hooks/useUser";
+import { Skeleton } from "../ui/skeleton";
 
 const Header = () => {
   const pathname = usePathname();
@@ -31,16 +32,21 @@ const Header = () => {
         </h1>
         {pathname !== "/register" && pathname !== "/signin" && (
           <>
-            <div className="hidden sm:block">
+            <div className="hidden sm:block w-full text-end">
               <MainNav routes={[{ href: "/register", title: "Register" }, { href: "/signin", title: "Sign in" }]} handleOpen={handleOpen} />
             </div>
-            <div className="sm:hidden block">
-              { user ? (
-                <MainNav routes={[{ href: "/register", title: "Register" }, { href: "/signin", title: "Sign in" }]} handleOpen={handleOpen} />
-              ) : (
-                  open ? 
-                  <X size={32} onClick={() => setOpen(false)} className="text-white cursor-pointer" /> 
-                  : <Menu size={32} onClick={() => setOpen(true)} className="text-white cursor-pointer" /> 
+            <div className="sm:hidden flex w-full justify-end items-center">
+              {
+                user !== false ? (
+                  user !== null ? (
+                      <MainNav routes={[{ href: "/register", title: "Register" }, { href: "/signin", title: "Sign in" }]} handleOpen={handleOpen} />
+                    ) : (
+                      open ? 
+                      <X size={32} onClick={() => setOpen(false)} className="text-white cursor-pointer text-end" /> 
+                      : <Menu size={32} onClick={() => setOpen(true)} className="text-white cursor-pointer text-end" /> 
+                    )
+                ) : (
+                  <Skeleton className="rounded-full w-10 h-10" />
                 )
               }
             </div>
@@ -48,7 +54,7 @@ const Header = () => {
         )}
       </div>
       {
-        !user && open && <MobileMenu handleOpen={handleOpen} open={open} />
+        !user && open && <MobileMenu handleOpen={handleOpen} />
       }
     </header>
   );

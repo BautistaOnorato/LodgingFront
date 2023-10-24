@@ -10,7 +10,6 @@ const HomePage = async () => {
   return (
     <main>
       <div className="w-full bg-primary-color items-center flex flex-col pt-2">
-
         <h2
           className={`text-white text-3xl md:text-4xl ${raleway.className} py-4 px-8 font-bold w-full`}
         >
