@@ -2,7 +2,7 @@
 
 import FavouritesContainer from "@/components/FavouritesContainer"
 import { useUser } from "@/hooks/useUser"
-import { redirect } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 
 interface FavouritePageProps {
   params: {
@@ -13,6 +13,12 @@ interface FavouritePageProps {
 const FavouritePage = ({ params } : FavouritePageProps) => {
   const { user } = useUser()
 
+  if (user) {
+    if (user.user.id.toString() !== params.userId) {
+      return notFound()
+    }
+  }
+
   if (user === null) {
     return redirect("/signin")
   }
@@ -20,6 +26,7 @@ const FavouritePage = ({ params } : FavouritePageProps) => {
   if (user === false) {
     return null
   }
+
 
   return (
     <div>

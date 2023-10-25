@@ -15,7 +15,9 @@ export const getProducts = async ({ location, category, initialDate, finalDate }
   return res.json()
 }
 
-export const getProductById = async (id: string): Promise<Product> => {
+export const getProductById = async (id: string): Promise<Product | null> => {
   const res = await fetch(`${BASE_URL}/id/${id}`)
-  return res.json()
+  if (res.ok) {
+    return res.json()
+  } else return null
 }
