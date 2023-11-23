@@ -93,7 +93,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories })
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Locations</SelectLabel>
+                <SelectLabel>Property type</SelectLabel>
                 {
                   categories?.map(category => (
                     <SelectItem value={category.id.toString()} key={category.id}>{category.title}</SelectItem>

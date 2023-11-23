@@ -3,18 +3,22 @@
 import { raleway } from "@/app/fonts";
 import SignUpForm from "./SignUpForm";
 import { useUser } from "@/hooks/useUser";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const { user } = useUser()
 
-  if (user) {
-    return redirect("/")
-  }
+  const router = useRouter()
 
   if (user === false) {
     return null
   }
+
+  if (user) {
+    return router.replace("/")
+  }
+
+
 
   return (
     <div className="pb-6 md:py-5 w-full px-5 flex flex-col gap-6">
