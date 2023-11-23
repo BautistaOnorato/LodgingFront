@@ -28,7 +28,7 @@ const Header = () => {
           className={`text-white text-xl sm:text-3xl font-bold cursor-pointer`}
           onClick={() => router.push("/")}
         >
-          LodgingService
+          RoomRover
         </h1>
         {pathname !== "/register" && pathname !== "/signin" && (
           <>
