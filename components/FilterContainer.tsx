@@ -30,7 +30,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories })
     from: undefined,
     to: undefined
   })
-  const [filters, setFilters] = useState({ location: "", category: "", initialDate: "", finalDate: "" })
+  const [filters, setFilters] = useState({ location: "", category: "", initialDate: "3000-12-30", finalDate: "3000-12-31" })
 
   const resetForm = () => {
     setLocation("")
@@ -39,7 +39,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories })
       from: undefined,
       to: undefined
     })
-    setFilters({ location: "", category: "", initialDate: "", finalDate: "" })
+    setFilters({ location: "", category: "", initialDate: "3000-12-30", finalDate: "3000-12-31" })
   }
 
   const handleDate = (value: DateRange | undefined) => {
@@ -49,11 +49,14 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ cities, categories })
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     
+    console.log(formatDate(date?.from, DateFormat.FILTER));
+    
+    
     const newFilters = {
       location: location,
       category: category,
-      initialDate: formatDate(date?.from, DateFormat.FILTER),
-      finalDate: formatDate(date?.to, DateFormat.FILTER),
+      initialDate: date?.from ? formatDate(date.from, DateFormat.FILTER) : "3000-12-30",
+      finalDate: date?.to ? formatDate(date.to, DateFormat.FILTER) : "3000-12-31",
     }
     setFilters(newFilters)
   }
